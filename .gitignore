@@ -119,3 +119,6 @@ override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
+
+#Regenerate layer.zip, don't persist to repo: 
+layer.zip

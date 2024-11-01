@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild": "rm -rf dist",
-    "build": "esbuild index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
-    "postbuild": "cd dist && zip -r index.zip index.js*"
+    "build": "yarn install && tsc && mkdir -p nodejs/node_modules/mpc-common && cp -R dist/* nodejs/node_modules/mpc-common/ && cp -R node_modules/* nodejs/node_modules/",
+    "clean": "rm -rf dist nodejs layer.zip",
+    "package": "zip -r layer.zip nodejs/",
+    "deploy": "aws lambda publish-layer-version --layer-name mpc-common --zip-file fileb://layer.zip --compatible-runtimes nodejs20.x --region us-west-2"
   },
   "repository": {
     "type": "git",
@@ -23,5 +24,11 @@
     "@types/aws-lambda": "^8.10.109",
     "axios": "^1.2.1",
     "esbuild": "^0.16.9"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.682.0",
+    "@aws-sdk/client-secrets-manager": "^3.682.0",
+    "@aws-sdk/client-sns": "^3.682.0",
+    "@aws-sdk/lib-dynamodb": "^3.685.0"
   }
 }
